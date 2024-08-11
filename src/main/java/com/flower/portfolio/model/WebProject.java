@@ -29,4 +29,8 @@ public class WebProject {
     @OneToMany(mappedBy = "project", cascade = CascadeType.MERGE)
     @JsonIgnoreProperties(value="project")
     private List<Technology> technologies;
+
+    @ManyToOne(cascade=CascadeType.MERGE)
+    @JsonIgnoreProperties(value="projects")
+    private Person person;
 }
