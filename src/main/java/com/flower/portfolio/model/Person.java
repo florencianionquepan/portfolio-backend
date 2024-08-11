@@ -1,5 +1,6 @@
 package com.flower.portfolio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name="persons")
@@ -29,5 +31,15 @@ public class Person {
     @Column(nullable = false, length = 30)
     private String ocupation;
     private String presentation;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties(value="person")
+    private List<Course> courses;
+    @OneToMany(mappedBy = "person", cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties(value="person")
+    private List<WebProject> projects;
+    @OneToMany(mappedBy = "person", cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties(value="person")
+    private List<AcademicProgram> programs;
 
 }
