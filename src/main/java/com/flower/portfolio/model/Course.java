@@ -1,12 +1,19 @@
 package com.flower.portfolio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name="courses")
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class Course {
     @Id
@@ -19,5 +26,9 @@ public class Course {
     private String duration;
     private String description;
     private LocalDate startDate;
+
+    @ManyToOne(cascade=CascadeType.MERGE)
+    @JsonIgnoreProperties(value="courses")
+    private Person person;
 
 }
