@@ -1,5 +1,6 @@
 package com.flower.portfolio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,5 +29,9 @@ public class AcademicProgram {
     private LocalDate endDate;
     @Column(nullable = false)
     private Status status;
+
+    @ManyToOne(cascade=CascadeType.MERGE)
+    @JsonIgnoreProperties(value="programs")
+    private Person person;
 
 }
