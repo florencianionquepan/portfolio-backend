@@ -5,6 +5,6 @@ import com.flower.portfolio.model.Person;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface IPersonaMapper {
+public interface IPersonMapper {
     PersonDTO mapToDto(Person person);
 }
