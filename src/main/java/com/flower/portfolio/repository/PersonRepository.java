@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PersonRepository extends CrudRepository<Person,Long> {
 
-    Person findByLastname(String lastname);
+    Person findByLastName(String lastname);
 }
