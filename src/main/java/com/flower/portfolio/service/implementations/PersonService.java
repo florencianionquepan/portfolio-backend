@@ -1,5 +1,7 @@
 package com.flower.portfolio.service.implementations;
 
+import com.flower.portfolio.dto.PersonDTO;
+import com.flower.portfolio.dto.mapper.IPersonaMapper;
 import com.flower.portfolio.model.Person;
 import com.flower.portfolio.repository.PersonRepository;
 import com.flower.portfolio.service.interfaces.IPersonService;
@@ -9,23 +11,26 @@ import org.springframework.stereotype.Service;
 public class PersonService implements IPersonService {
 
     private final PersonRepository repo;
+    private final IPersonaMapper mapper;
 
-    public PersonService(PersonRepository iPersonRepo) {
+    public PersonService(PersonRepository iPersonRepo,
+                         IPersonaMapper mapper) {
         repo = iPersonRepo;
+        this.mapper = mapper;
     }
 
     @Override
-    public Person get(String lastname) {
-        return this.repo.findByLastname(lastname);
+    public PersonDTO get(String lastname) {
+        return this.mapper.mapToDto(this.repo.findByLastname(lastname));
     }
 
     @Override
-    public Person post(Person person) {
+    public PersonDTO post(Person person) {
         return null;
     }
 
     @Override
-    public Person update(Long id, Person person) {
+    public PersonDTO update(Long id, Person person) {
         return null;
     }
 }
