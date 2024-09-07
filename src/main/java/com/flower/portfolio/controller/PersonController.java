@@ -41,6 +41,6 @@ public class PersonController {
     @GetMapping("/{lastname}")
     public ResponseEntity<?> getSensitiveData(@PathVariable String lastname){
         ContactInfoDTO contact=this.personService.getSensitiveData(lastname);
-        return this.successResponse(this.successResponse(contact));
+        return this.successResponse(contact);
     }
 }
