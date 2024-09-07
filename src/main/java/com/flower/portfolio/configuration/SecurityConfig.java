@@ -1,17 +1,26 @@
 package com.flower.portfolio.configuration;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Collections;
+import java.util.List;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Value("${google.client-id}")
@@ -26,16 +35,37 @@ public class SecurityConfig {
     @Value("${github.client-secret}")
     private String githubClientSecret;
 
+    @Value("${frontend.url}")
+    private String frontUrl;
+
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
+    public SecurityConfig(OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
+        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
+    }
+
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.authorizeHttpRequests((requests)->requests.requestMatchers("/person").authenticated()
+        httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors->cors.configurationSource(request -> {
+                    CorsConfiguration configuration=new CorsConfiguration();
+                    configuration.setAllowedOrigins(List.of(frontUrl));
+                    configuration.setAllowedHeaders(Collections.singletonList("*"));
+                    configuration.setAllowedHeaders(Collections.singletonList("*"));
+                    configuration.setAllowCredentials(true);
+                    return configuration;
+                }))
+                .authorizeHttpRequests((requests)->requests.requestMatchers("/person","/person/**").authenticated()
                 .anyRequest().permitAll())
-                .formLogin(Customizer.withDefaults())
-                .oauth2Login(Customizer.withDefaults());
+                .oauth2Login(oauth2->{
+                    oauth2.successHandler(oAuth2LoginSuccessHandler);
+                });
         return httpSecurity.build();
     }
 
     @Bean
+    //aqui authentication es instancia de OAuth2AuthenticationToken
     ClientRegistrationRepository clientRegistrationRepository(){
         ClientRegistration google=googleClientRegistration();
         ClientRegistration github=githubClientRegistration();
