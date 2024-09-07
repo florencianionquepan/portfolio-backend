@@ -26,6 +26,7 @@ public class Person {
     private String lastName;
     @Column(nullable = false, length = 30)
     private String tel;
+    private String email;
     @Column(nullable = false)
     private LocalDate dateOfBirth;
     @Column(nullable = false, length = 30)
