@@ -32,7 +32,9 @@ public class PersonService implements IPersonService {
 
     @Override
     public PersonDTO post(PersonDTO person) {
-        return null;
+        Person entity=this.mapper.mapToEntity(person);
+        Person created=this.repo.save(entity);
+        return this.mapper.mapToDto(created);
     }
 
     @Override
