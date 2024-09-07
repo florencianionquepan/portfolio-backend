@@ -1,5 +1,6 @@
 package com.flower.portfolio.service.implementations;
 
+import com.flower.portfolio.dto.ContactInfoDTO;
 import com.flower.portfolio.dto.PersonDTO;
 import com.flower.portfolio.dto.mapper.IPersonMapper;
 import com.flower.portfolio.model.Person;
@@ -20,13 +21,17 @@ public class PersonService implements IPersonService {
     }
 
     @Override
+    public ContactInfoDTO getSensitiveData(String lastname) {
+        return this.mapper.mapToSensitiveData(this.repo.findByLastName(lastname));
+    }
+
+    @Override
     public PersonDTO get(String lastname) {
         return this.mapper.mapToDto(this.repo.findByLastName(lastname));
     }
 
     @Override
     public PersonDTO post(PersonDTO person) {
-
         return null;
     }
 
