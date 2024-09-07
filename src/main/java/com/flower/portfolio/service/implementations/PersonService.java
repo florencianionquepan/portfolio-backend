@@ -25,12 +25,13 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public PersonDTO post(Person person) {
+    public PersonDTO post(PersonDTO person) {
+
         return null;
     }
 
     @Override
-    public PersonDTO update(Long id, Person person) {
+    public PersonDTO update(Long id, PersonDTO person) {
         return null;
     }
 }

@@ -5,6 +5,6 @@ import com.flower.portfolio.model.Person;
 
 public interface IPersonService {
     PersonDTO get(String lastname);
-    PersonDTO post(Person person);
-    PersonDTO update(Long id, Person person);
+    PersonDTO post(PersonDTO person);
+    PersonDTO update(Long id, PersonDTO person);
 }
