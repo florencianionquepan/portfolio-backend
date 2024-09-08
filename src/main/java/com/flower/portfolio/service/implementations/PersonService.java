@@ -22,7 +22,8 @@ public class PersonService implements IPersonService {
 
     @Override
     public ContactInfoDTO getSensitiveData(String lastname) {
-        return this.mapper.mapToSensitiveData(this.repo.findByLastName(lastname));
+        Person p=this.repo.findByLastName(lastname);
+        return this.mapper.mapToSensitiveData(p);
     }
 
     @Override
