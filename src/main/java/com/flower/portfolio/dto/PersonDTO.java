@@ -1,5 +1,6 @@
 package com.flower.portfolio.dto;
 
+import com.flower.portfolio.dto.validator.PastDateRange;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -26,6 +27,7 @@ public class PersonDTO {
     private String tel;
     @Email
     private String email;
+    @PastDateRange
     private LocalDate dateOfBirth;
     @Pattern(regexp = "^[a-zA-Z.()!]+$", message = "Occupation must contain only letters, periods, exclamation marks, and parentheses.")
     private String occupation;

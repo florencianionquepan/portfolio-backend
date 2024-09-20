@@ -1,6 +1,7 @@
 package com.flower.portfolio.dto;
 
 
+import com.flower.portfolio.dto.validator.PastDateRange;
 import com.flower.portfolio.dto.validator.ValueOfEnum;
 import com.flower.portfolio.model.Status;
 import jakarta.validation.constraints.NotEmpty;
@@ -24,6 +25,7 @@ public class ProgramDTO {
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Institution must contain only letters.")
     private String institution;
     private String degreeType;
+    @PastDateRange
     private LocalDate startDate;
     private LocalDate endDate;
     @ValueOfEnum(enumClass=Status.class)
