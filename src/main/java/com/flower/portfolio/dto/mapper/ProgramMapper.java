@@ -2,6 +2,7 @@ package com.flower.portfolio.dto.mapper;
 
 import com.flower.portfolio.dto.ProgramDTO;
 import com.flower.portfolio.model.AcademicProgram;
+import com.flower.portfolio.model.Status;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class ProgramMapper implements IProgramMapper{
         entity.setDegreeType(dto.getDegreeType());
         entity.setStartDate(dto.getStartDate());
         entity.setEndDate(dto.getEndDate());
-        entity.setStatus(dto.getStatus());
+        entity.setStatus(Status.valueOf(dto.getStatus()));
         return entity;
     }
 
@@ -40,7 +41,7 @@ public class ProgramMapper implements IProgramMapper{
         dto.setDegreeType(entity.getDegreeType());
         dto.setStartDate(entity.getStartDate());
         dto.setEndDate(entity.getEndDate());
-        dto.setStatus(entity.getStatus());
+        dto.setStatus(entity.getStatus().toString());
 
         return dto;
     }

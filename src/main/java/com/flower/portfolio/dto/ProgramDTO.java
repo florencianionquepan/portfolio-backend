@@ -18,17 +18,17 @@ public class ProgramDTO {
     private Long id;
     @NotNull
     @NotEmpty
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Name must contain only letters.")
+    @Pattern(regexp = "^[a-zA-Z\\sÀ-ÿ]+$", message = "Name must contain only letters.")
     private String name;
     @NotNull
     @NotEmpty
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Institution must contain only letters.")
+    @Pattern(regexp = "^[a-zA-Z\\sÀ-ÿ]+$", message = "Institution must contain only letters.")
     private String institution;
     private String degreeType;
     @PastDateRange
     private LocalDate startDate;
     private LocalDate endDate;
     @ValueOfEnum(enumClass=Status.class)
-    private Status status;
+    private String status;
 
 }
