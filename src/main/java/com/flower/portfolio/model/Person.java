@@ -43,4 +43,7 @@ public class Person {
     @JsonIgnoreProperties(value="person")
     private List<AcademicProgram> programs;
 
+    @OneToOne
+    private User user;
+
 }
