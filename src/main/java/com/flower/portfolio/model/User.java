@@ -20,6 +20,7 @@ public class User {
     private String email;
     private String imageURL;
     private LocalDate lastLogin;
+    private String provider;
     private Boolean active;
 
     @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
@@ -31,4 +32,7 @@ public class User {
     @JsonIgnoreProperties(value="users")
     private List<Role> roles;
 
+    public User(){
+        this.active=true;
+    }
 }
