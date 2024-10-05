@@ -27,13 +27,6 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         this.setAlwaysUseDefaultTargetUrl(true);
         this.setDefaultTargetUrl(frontUrl);
         super.onAuthenticationSuccess(request, response, authentication);
-        UserDTO dto=this.getUserDetails(authentication);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.setStatus(HttpServletResponse.SC_OK);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String userDtoJson = objectMapper.writeValueAsString(dto);
-        response.getWriter().write(userDtoJson);
     }
     }
 }
