@@ -18,6 +18,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
 import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
@@ -72,6 +73,7 @@ public class SecurityConfig {
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
                         }))
                 .logout(logout->logout.deleteCookies("JSESSIONID"))
+                .logout(logout->logout.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()))
                 .oauth2Login(oauth2->{
                     oauth2.successHandler(oAuth2LoginSuccessHandler);
                 });
