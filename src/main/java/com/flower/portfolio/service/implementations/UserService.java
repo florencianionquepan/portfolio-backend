@@ -5,6 +5,7 @@ import com.flower.portfolio.auth.dto.mapper.IUserMapper;
 import com.flower.portfolio.model.User;
 import com.flower.portfolio.repository.UserRepository;
 import com.flower.portfolio.service.interfaces.IUserService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public void createOrUpdateUser(UserDTO dto, String provider) {
         LocalDate lastLogin=LocalDate.now();
         if(provider.equals("github")){
