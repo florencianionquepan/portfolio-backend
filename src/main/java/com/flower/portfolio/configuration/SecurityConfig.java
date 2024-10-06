@@ -17,6 +17,11 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
+import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -56,7 +61,7 @@ public class SecurityConfig {
                     CorsConfiguration configuration=new CorsConfiguration();
                     configuration.setAllowedOrigins(List.of(frontUrl));
                     configuration.setAllowedHeaders(Collections.singletonList("*"));
-                    configuration.setAllowedHeaders(Collections.singletonList("*"));
+                    configuration.setAllowedMethods(Collections.singletonList("*"));
                     configuration.setAllowCredentials(true);
                     return configuration;
                 }))
@@ -66,6 +71,7 @@ public class SecurityConfig {
                         (request, response, ex) -> {
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
                         }))
+                .logout(logout->logout.deleteCookies("JSESSIONID"))
                 .oauth2Login(oauth2->{
                     oauth2.successHandler(oAuth2LoginSuccessHandler);
                 });
