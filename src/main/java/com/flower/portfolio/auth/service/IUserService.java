@@ -5,5 +5,5 @@ import com.flower.portfolio.auth.dto.UserDTO;
 import com.flower.portfolio.model.User;
 
 public interface IUserService {
-    User createOrUpdateUser(UserDTO dto, String provider);
+    UserDTO createOrUpdateUser(UserDTO dto, String provider);
 }
