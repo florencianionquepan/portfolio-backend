@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ProgramRepository extends CrudRepository<AcademicProgram,Long> {
+public interface IProgramRepository extends CrudRepository<AcademicProgram,Long> {
     List<AcademicProgram> findByPersonId(Long personId);
 }

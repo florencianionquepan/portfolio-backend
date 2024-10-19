@@ -4,8 +4,8 @@ import com.flower.portfolio.dto.ProgramDTO;
 import com.flower.portfolio.dto.mapper.IProgramMapper;
 import com.flower.portfolio.model.AcademicProgram;
 import com.flower.portfolio.model.Person;
-import com.flower.portfolio.repository.PersonRepository;
-import com.flower.portfolio.repository.ProgramRepository;
+import com.flower.portfolio.repository.IPersonRepository;
+import com.flower.portfolio.repository.IProgramRepository;
 import com.flower.portfolio.service.interfaces.IProgramService;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,12 @@ import java.util.Optional;
 public class ProgramService implements IProgramService {
 
     private final IProgramMapper mapper;
-    private final ProgramRepository repo;
-    private final PersonRepository personRepo;
+    private final IProgramRepository repo;
+    private final IPersonRepository personRepo;
 
     public ProgramService(IProgramMapper mapper,
-                          ProgramRepository repo,
-                          PersonRepository personRepo) {
+                          IProgramRepository repo,
+                          IPersonRepository personRepo) {
         this.mapper = mapper;
         this.repo = repo;
         this.personRepo = personRepo;
