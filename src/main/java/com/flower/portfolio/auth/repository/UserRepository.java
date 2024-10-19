@@ -1,4 +1,4 @@
-package com.flower.portfolio.repository;
+package com.flower.portfolio.auth.repository;
 
 import com.flower.portfolio.model.User;
 import org.springframework.data.repository.CrudRepository;
