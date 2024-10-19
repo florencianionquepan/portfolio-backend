@@ -1,12 +1,10 @@
 package com.flower.portfolio.controller;
 
-import com.flower.portfolio.dto.PersonDTO;
 import com.flower.portfolio.dto.ProgramDTO;
 import com.flower.portfolio.service.interfaces.IProgramService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -29,9 +27,15 @@ public class ProgramController {
     }
 
     @PostMapping("/person/{id}")
-    public ResponseEntity<?> createProfile(@PathVariable Long id, @RequestBody @Valid ProgramDTO dto){
+    public ResponseEntity<?> createProgram(@PathVariable Long id, @RequestBody @Valid ProgramDTO dto){
         ProgramDTO created=this.service.post(dto, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.successResponse(created));
+    }
+
+    @PutMapping("/{idP}")
+    public ResponseEntity<?> updateProgram(@PathVariable Long idP, @RequestBody @Valid ProgramDTO dto){
+        ProgramDTO modified=this.service.update(dto,idP);
+        return this.successResponse(modified);
     }
 
 
