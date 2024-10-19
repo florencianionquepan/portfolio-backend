@@ -21,7 +21,7 @@ public class Course {
     private Long id;
     @Column(nullable = false, length = 50)
     private String title;
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 50)
     private String instructor;
     private String duration;
     private String description;
