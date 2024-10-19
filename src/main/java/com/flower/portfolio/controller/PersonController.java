@@ -31,7 +31,7 @@ public class PersonController {
     @PostMapping
     public ResponseEntity<?> createProfile(@Valid PersonDTO dto){
         PersonDTO created=this.personService.post(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.successResponse(created));
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping("/{lastname}")

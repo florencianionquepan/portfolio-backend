@@ -32,7 +32,7 @@ public class CourseController {
     @PostMapping("/person/{id}")
     public ResponseEntity<?> createProgram(@PathVariable Long id, @RequestBody @Valid CourseDTO dto){
         CourseDTO created=this.service.post(dto, id);
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.successResponse(created));
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{idP}")
