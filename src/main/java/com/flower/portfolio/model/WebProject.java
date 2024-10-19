@@ -26,8 +26,13 @@ public class WebProject {
     private Status status;
     private String imageURL;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.MERGE)
-    @JsonIgnoreProperties(value="project")
+    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+    @JoinTable(
+            name="projects_technologies",
+            joinColumns = @JoinColumn(name="project_id"),
+            inverseJoinColumns = @JoinColumn (name="technology_id")
+    )
+    @JsonIgnoreProperties(value="projects")
     private List<Technology> technologies;
 
     @ManyToOne(cascade=CascadeType.MERGE)

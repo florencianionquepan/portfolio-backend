@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name="technologies")
 @Getter
@@ -22,7 +24,7 @@ public class Technology {
     private String logoUrl;
     private String version;
 
-    @ManyToOne(cascade=CascadeType.MERGE)
+    @ManyToMany(mappedBy = "technologies")
     @JsonIgnoreProperties(value="technologies")
-    private WebProject project;
+    private List<WebProject> projects;
 }
