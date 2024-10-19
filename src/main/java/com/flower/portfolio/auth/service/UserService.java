@@ -32,7 +32,7 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
-    public User createOrUpdateUser(UserDTO dto, String provider) {
+    public UserDTO createOrUpdateUser(UserDTO dto, String provider) {
         User user;
         Optional<User> oUser = findUserByProvider(dto, provider);
         if (oUser.isEmpty()) {
@@ -42,7 +42,7 @@ public class UserService implements IUserService {
         } else {
             user=updateLastLogin(oUser);
         }
-        return user;
+        return this.mapper.mapEntityToDTO(user);
     }
 
     private Optional<User> findUserByProvider(UserDTO dto, String provider) {
