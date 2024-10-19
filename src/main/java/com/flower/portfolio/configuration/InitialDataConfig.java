@@ -2,7 +2,7 @@ package com.flower.portfolio.configuration;
 
 import com.flower.portfolio.model.Role;
 import com.flower.portfolio.model.RoleName;
-import com.flower.portfolio.repository.RoleRepository;
+import com.flower.portfolio.auth.repository.RoleRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
 

@@ -33,12 +33,8 @@ public class UserMapper implements IUserMapper{
         if(dto.getEmail()!=null){
             user.setEmail(dto.getEmail());
         }
-        if(dto.getUsername()!=null){
-            user.setUsername(dto.getUsername());
-        }
-        if(dto.getImageURL()!=null){
-            user.setImageURL(dto.getImageURL());
-        }
+        user.setUsername(dto.getUsername());
+        user.setImageURL(dto.getImageURL());
         user.setProvider(provider);
         user.setLastLogin(lastLogin);
         return user;

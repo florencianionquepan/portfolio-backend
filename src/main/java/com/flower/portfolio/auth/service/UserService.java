@@ -49,7 +49,7 @@ public class UserService implements IUserService {
         if (provider.equals("github")) {
             return this.repo.findByUsernameAndProvider(dto.getUsername(), "github");
         } else if (provider.equals("google")) {
-            return this.repo.findByEmailAndProvider(dto.getUsername(), "google");
+            return this.repo.findByEmailAndProvider(dto.getEmail(), "google");
         }
         return Optional.empty();
     }
