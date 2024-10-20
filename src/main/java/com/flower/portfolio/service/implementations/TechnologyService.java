@@ -65,8 +65,8 @@ public class TechnologyService implements ITechnologyService {
         if(oTech.isEmpty()){
             //lanzo otra excepcion
         }
-        dto.setId(idT);
         Technology entity=this.mapper.mapToEntity(dto);
+        entity.setId(idT);
         return this.mapper.mapToDto(this.repo.save(entity));
     }
 }

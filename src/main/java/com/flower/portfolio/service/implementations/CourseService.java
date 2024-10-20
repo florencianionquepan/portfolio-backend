@@ -46,11 +46,11 @@ public class CourseService implements ICourseService {
 
     @Override
     public CourseDTO put(CourseDTO dto, Long idC) {
-        Course courseModified = this.mapper.mapToEntity(dto);
         Optional<Course> oCourse = this.repo.findById(idC);
         if(oCourse.isEmpty()){
             //...
         }
+        Course courseModified = this.mapper.mapToEntity(dto);
         courseModified.setId(idC);
         return this.mapper.mapToDTO(this.repo.save(courseModified));
     }
