@@ -46,11 +46,13 @@ public class ProgramService implements IProgramService {
 
     @Override
     public ProgramDTO update(ProgramDTO dto, Long idProgram) {
-        AcademicProgram programModified=this.mapper.mapToEntity(dto);
         Optional<AcademicProgram> oP=this.repo.findById(idProgram);
         if(oP.isEmpty()){
             //excepcion
         }
+        Person person=oP.get().getPerson();
+        AcademicProgram programModified=this.mapper.mapToEntity(dto);
+        programModified.setPerson(person);
         programModified.setId(oP.get().getId());
         return this.mapper.mapToDTO(this.repo.save(programModified));
     }
