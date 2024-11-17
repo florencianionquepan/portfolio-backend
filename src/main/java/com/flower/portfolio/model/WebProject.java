@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -22,9 +23,15 @@ public class WebProject {
     @Column(nullable = false, length = 20)
     private String title;
     private String description;
-    private String url;
+    private LocalDate endDate;
     private Status status;
-    private String imageURL;
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties(value="project")
+    private List<Image> images;
+
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JsonIgnoreProperties(value="project")
+    private List<Link> links;
 
     @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinTable(
