@@ -61,21 +61,22 @@ public class WebProjectService implements IWebProjectService {
             //...lanzar excepcion
         }
         WebProject project=this.mapper.mapToEntity(dto);
+        project.setPerson(oPerson.get());
+        WebProject created=this.repo.save(project);
         //subir y guardar imagenes
-        List<Image> created=this.uploadAndSave(files);
-        project.setImages(created);
-        //guardar links
+        List<Image> uploaded=this.uploadAndSave(files, project);
+        project.setImages(uploaded);
         if(project.getLinks()!=null){
+            project.getLinks().forEach(link -> link.setProject(project));
             List<Link> links= (List<Link>) this.linkRepo.saveAll(project.getLinks());
             project.setLinks(links);
         }
-        project.setPerson(oPerson.get());
         return this.mapper.mapToDTO(this.repo.save(project));
     }
 
-    private List<Image> uploadAndSave(MultipartFile[] files){
+    private List<Image> uploadAndSave(MultipartFile[] files, WebProject project){
         List<Map<String, Object>> results=this.cloudService.upload(files);
-        List<Image> images=this.imageMapper.mapToListImage(results);
+        List<Image> images=this.imageMapper.mapToListImage(results, project);
         return (List<Image>) this.imageRepo.saveAll(images);
     }
 
