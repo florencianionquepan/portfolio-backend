@@ -66,7 +66,7 @@ public class SecurityConfig {
                     configuration.setAllowCredentials(true);
                     return configuration;
                 }))
-                .authorizeHttpRequests((requests)->requests.requestMatchers("/person","/person/**","/auth").authenticated()
+                .authorizeHttpRequests((requests)->requests.requestMatchers("/person","/person/**","profile/**","/auth","/programs/**").authenticated()
                 .anyRequest().permitAll())
                 .exceptionHandling(exh -> exh.authenticationEntryPoint(
                         (request, response, ex) -> {

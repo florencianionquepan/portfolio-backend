@@ -29,12 +29,6 @@ public class AuthController {
         this.userMapper = userMapper;
     }
 
-    private ResponseEntity<?> successResponse(Object data){
-        mensajeBody.put("success",Boolean.TRUE);
-        mensajeBody.put("data",data);
-        return ResponseEntity.ok(mensajeBody);
-    }
-
     @GetMapping
     private ResponseEntity<?> getUserDetails(Authentication authentication){
         OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
@@ -42,7 +36,7 @@ public class AuthController {
         DefaultOAuth2User principal= (DefaultOAuth2User) authentication.getPrincipal();
         UserDTO dto=this.userMapper.mapDefaultOAuth2UserToDto(principal,provider);
         UserDTO created=this.service.createOrUpdateUser(dto,provider);
-        return this.successResponse(created);
+        return ResponseEntity.ok(created);
     }
 
 }

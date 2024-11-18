@@ -1,6 +1,7 @@
 package com.flower.portfolio.controller;
 
 import com.flower.portfolio.dto.PersonDTO;
+import com.flower.portfolio.dto.PersonWithDetailsDTO;
 import com.flower.portfolio.service.interfaces.IPersonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,22 +17,20 @@ import java.util.Map;
 public class PublicController {
 
     private final IPersonService personService;
-    public Map<String,Object> mensajeBody= new HashMap<>();
 
     public PublicController(IPersonService personService) {
         this.personService = personService;
     }
 
-    private ResponseEntity<?> successResponse(Object data){
-        mensajeBody.put("success",Boolean.TRUE);
-        mensajeBody.put("data",data);
-        return ResponseEntity.ok(mensajeBody);
-    }
-
-    @GetMapping("/profile/{lastname}")
+/*    @GetMapping("/profile/{lastname}")
     public ResponseEntity<?> getPerson(@PathVariable String lastname){
         PersonDTO dto=this.personService.get(lastname);
-        return this.successResponse(dto);
-    }
+        return ResponseEntity.ok(dto);
+    }*/
 
+    @GetMapping("/profile/{lastname}")
+    public ResponseEntity<?> getPersonDetails(@PathVariable String lastname){
+        PersonWithDetailsDTO dto=this.personService.getAllData(lastname);
+        return ResponseEntity.ok(dto);
+    }
 }

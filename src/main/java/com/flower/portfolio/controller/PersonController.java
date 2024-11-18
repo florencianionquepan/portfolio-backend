@@ -16,16 +16,9 @@ import java.util.Map;
 public class PersonController {
 
     private final IPersonService personService;
-    public Map<String,Object> mensajeBody= new HashMap<>();
 
     public PersonController(IPersonService personService) {
         this.personService = personService;
-    }
-
-    private ResponseEntity<?> successResponse(Object data){
-        mensajeBody.put("success",Boolean.TRUE);
-        mensajeBody.put("data",data);
-        return ResponseEntity.ok(mensajeBody);
     }
 
     @PostMapping
@@ -37,6 +30,6 @@ public class PersonController {
     @GetMapping("/{lastname}")
     public ResponseEntity<?> getSensitiveData(@PathVariable String lastname){
         ContactInfoDTO contact=this.personService.getSensitiveData(lastname);
-        return this.successResponse(contact);
+        return ResponseEntity.ok(contact);
     }
 }
