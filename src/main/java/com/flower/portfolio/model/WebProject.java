@@ -22,6 +22,7 @@ public class WebProject {
     private Long id;
     @Column(nullable = false, length = 20)
     private String title;
+    @Column(length = 500)
     private String description;
     private LocalDate endDate;
     private Status status;
