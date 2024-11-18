@@ -29,6 +29,11 @@ public class TechnologyService implements ITechnologyService {
     }
 
     @Override
+    public List<TechnologyDTO> getAll() {
+        return this.mapper.mapToListDtos((List<Technology>) this.repo.findAll());
+    }
+
+    @Override
     public List<TechnologyDTO> technologiesByPerson(Long idPerson) {
         List<WebProject> projects=this.personRepo.findAllByPersonId(idPerson);
         List<Technology> techonologies=projects.stream()
