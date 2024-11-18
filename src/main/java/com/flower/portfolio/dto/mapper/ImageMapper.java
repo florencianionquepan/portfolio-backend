@@ -31,6 +31,13 @@ public class ImageMapper implements IImageMapper{
     }
 
     @Override
+    public List<Image> mapToListEntities(List<ImageDTO> dtos) {
+        return dtos.stream()
+                .map(this::mapToEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<ImageDTO> mapToListDTO(List<Image> entities) {
         return entities.stream()
                 .map(this::mapToDTO)

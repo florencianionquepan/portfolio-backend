@@ -8,5 +8,6 @@ import java.util.List;
 public interface ILinkMapper {
     Link mapToEntity(LinkDTO dto);
     LinkDTO mapToDTO(Link entity);
+    List<Link> mapToListEntities(List<LinkDTO> dtos);
     List<LinkDTO> mapToListDTO(List<Link> entities);
 }

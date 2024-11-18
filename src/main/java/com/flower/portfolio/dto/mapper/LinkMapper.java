@@ -29,6 +29,13 @@ public class LinkMapper implements ILinkMapper{
     }
 
     @Override
+    public List<Link> mapToListEntities(List<LinkDTO> dtos) {
+        return dtos.stream()
+                .map(this::mapToEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<LinkDTO> mapToListDTO(List<Link> entities) {
         return entities.stream()
                 .map(this::mapToDTO)
