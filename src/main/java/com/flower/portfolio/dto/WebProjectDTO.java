@@ -22,6 +22,6 @@ public class WebProjectDTO {
     private String description;
     private LocalDate endDate;
     private Status status;
-    private List<Image> images;
-    private List<Link> links;
+    private List<ImageDTO> images;
+    private List<LinkDTO> links;
 }
