@@ -1,23 +1,48 @@
 package com.flower.portfolio.service.implementations;
 
-import com.flower.portfolio.dto.ContactInfoDTO;
-import com.flower.portfolio.dto.PersonDTO;
+import com.flower.portfolio.dto.*;
+import com.flower.portfolio.dto.mapper.IPersonDetailsMapper;
 import com.flower.portfolio.dto.mapper.IPersonMapper;
+import com.flower.portfolio.dto.mapper.IProjectMapper;
+import com.flower.portfolio.dto.mapper.ProjectMapper;
 import com.flower.portfolio.model.Person;
-import com.flower.portfolio.repository.PersonRepository;
+import com.flower.portfolio.repository.IPersonRepository;
 import com.flower.portfolio.service.interfaces.IPersonService;
+import com.flower.portfolio.service.interfaces.IProgramService;
+import com.flower.portfolio.service.interfaces.IWebProjectService;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PersonService implements IPersonService {
 
-    private final PersonRepository repo;
+    private final IPersonRepository repo;
     private final IPersonMapper mapper;
+    private final IProgramService programService;
+    private final IWebProjectService projectService;
+    private final IPersonDetailsMapper detailsMapper;
 
-    public PersonService(PersonRepository PersonRepo,
-                         IPersonMapper mapper) {
+    public PersonService(IPersonRepository PersonRepo,
+                         IPersonMapper mapper,
+                         IProgramService programService,
+                         IWebProjectService projectService,
+                         IPersonDetailsMapper detailsMapper) {
         repo = PersonRepo;
         this.mapper = mapper;
+        this.programService = programService;
+        this.projectService = projectService;
+        this.detailsMapper = detailsMapper;
+    }
+
+    @Override
+    public PersonWithDetailsDTO getAllData(String lastname) {
+        Person person=this.repo.findByLastName(lastname);
+        List<ProgramDTO> programs=this.programService.programsByPerson(person.getId());
+        List<WebProjectDTO> projects=this.projectService.projectsByPerson(person.getId());
+        return this.detailsMapper.mapToDto(this.mapper.mapToDto(person),programs,projects);
+        //queda agregar las technologies a projects
     }
 
     @Override
@@ -26,6 +51,7 @@ public class PersonService implements IPersonService {
         return this.mapper.mapToSensitiveData(p);
     }
 
+    //agregar excepciones luego
     @Override
     public PersonDTO get(String lastname) {
         return this.mapper.mapToDto(this.repo.findByLastName(lastname));
