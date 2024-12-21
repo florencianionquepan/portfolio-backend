@@ -25,7 +25,7 @@ public class ProjectController {
 
     private ResponseEntity<?> validarFiles(MultipartFile[] multipartFiles){
         if (multipartFiles == null || multipartFiles.length == 0) {
-            //return this.notSuccessResponse("No se proporciono ninguna imagen del gatito",0);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No images have been uploaded.");
         }else{
             for (MultipartFile multipartFile : multipartFiles){
                 BufferedImage bi= null;
@@ -35,16 +35,16 @@ public class ProjectController {
                     return ResponseEntity.badRequest().body(e.getMessage());
                 }
                 if(bi==null){
-                    return ResponseEntity.badRequest().body("Alguna imagen no es válida");
+                    return ResponseEntity.badRequest().body("Some image is not valid.");
                 }
             }
         }
         return ResponseEntity.ok("ok");
     }
 
-    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    @PostMapping(path = "/person/{idPerson}",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public ResponseEntity<?> createProject(@RequestPart("project") @Valid WebProjectDTO dto,
-                                           @RequestParam Long idPerson,
+                                           @PathVariable Long idPerson,
                                            @RequestParam(required = false) MultipartFile[] files){
         ResponseEntity<?> response=this.validarFiles(files);
         if(response.getStatusCode()!=HttpStatus.OK){
