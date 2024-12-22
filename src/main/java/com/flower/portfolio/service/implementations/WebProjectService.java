@@ -4,22 +4,14 @@ import com.flower.portfolio.dto.WebProjectDTO;
 import com.flower.portfolio.dto.mapper.IProjectMapper;
 import com.flower.portfolio.external.mapper.ImageUploadedMapper;
 import com.flower.portfolio.external.service.CloudinaryService;
-import com.flower.portfolio.model.Image;
-import com.flower.portfolio.model.Link;
-import com.flower.portfolio.model.Person;
-import com.flower.portfolio.model.WebProject;
-import com.flower.portfolio.repository.IImageRepository;
-import com.flower.portfolio.repository.ILinkRepository;
-import com.flower.portfolio.repository.IPersonRepository;
-import com.flower.portfolio.repository.IWebProjectRepository;
+import com.flower.portfolio.model.*;
+import com.flower.portfolio.repository.*;
 import com.flower.portfolio.service.interfaces.IWebProjectService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class WebProjectService implements IWebProjectService {
@@ -31,6 +23,7 @@ public class WebProjectService implements IWebProjectService {
     private final IImageRepository imageRepo;
     private final ImageUploadedMapper imageMapper;
     private final ILinkRepository linkRepo;
+    private final ITechnologyRepository techRepo;
 
     public WebProjectService(IWebProjectRepository repo,
                              IProjectMapper mapper,
@@ -38,7 +31,8 @@ public class WebProjectService implements IWebProjectService {
                              CloudinaryService cloudService,
                              IImageRepository imageRepo,
                              ImageUploadedMapper imageMapper,
-                             ILinkRepository linkRepo) {
+                             ILinkRepository linkRepo,
+                             ITechnologyRepository techRepo) {
         this.repo = repo;
         this.mapper = mapper;
         this.personRepo = personRepo;
@@ -46,6 +40,7 @@ public class WebProjectService implements IWebProjectService {
         this.imageRepo = imageRepo;
         this.imageMapper = imageMapper;
         this.linkRepo = linkRepo;
+        this.techRepo = techRepo;
     }
 
     @Override
@@ -55,6 +50,7 @@ public class WebProjectService implements IWebProjectService {
     }
 
     @Override
+    @Transactional
     public WebProjectDTO create(WebProjectDTO dto, MultipartFile[] files, Long idPerson) {
         Optional<Person> oPerson=this.personRepo.findById(idPerson);
         if(oPerson.isEmpty()){
@@ -64,14 +60,30 @@ public class WebProjectService implements IWebProjectService {
         project.setPerson(oPerson.get());
         WebProject created=this.repo.save(project);
         //subir y guardar imagenes
-        List<Image> uploaded=this.uploadAndSave(files, project);
-        project.setImages(uploaded);
+        List<Image> uploaded=this.uploadAndSave(files, created);
+        created.setImages(uploaded);
         if(project.getLinks()!=null){
-            project.getLinks().forEach(link -> link.setProject(project));
-            List<Link> links= (List<Link>) this.linkRepo.saveAll(project.getLinks());
-            project.setLinks(links);
+            project.getLinks().forEach(link -> link.setProject(created));
+            //en teoria para edicion funciona esto =
+            List<Link> links= (List<Link>) this.linkRepo.saveAll(created.getLinks());
+            created.setLinks(links);
         }
-        return this.mapper.mapToDTO(this.repo.save(project));
+        if(project.getTechnologies()!=null && !project.getTechnologies().isEmpty()){
+            for (Technology tech : project.getTechnologies()) {
+                if (!techRepo.existsById(tech.getId())) {
+                    throw new IllegalArgumentException("Technology not found with ID: " + tech.getId());
+                }
+            }
+            project.getTechnologies().forEach(tech -> {
+                if(tech.getProjects()==null){
+                    tech.setProjects(new ArrayList<>());
+                }
+                if (!tech.getProjects().contains(created)) {
+                    tech.getProjects().add(created);
+                }
+            });
+        }
+        return this.mapper.mapToDTO(this.repo.save(created));
     }
 
     private List<Image> uploadAndSave(MultipartFile[] files, WebProject project){
