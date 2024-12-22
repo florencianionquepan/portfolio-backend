@@ -12,11 +12,14 @@ public class ProjectMapper implements IProjectMapper{
 
     private final IImageMapper imageMapper;
     private final ILinkMapper linkMapper;
+    private final ITechnologyMapper techMapper;
 
     public ProjectMapper(IImageMapper imageMapper,
-                         ILinkMapper linkMapper) {
+                         ILinkMapper linkMapper,
+                         ITechnologyMapper techMapper) {
         this.imageMapper = imageMapper;
         this.linkMapper = linkMapper;
+        this.techMapper = techMapper;
     }
 
     @Override
@@ -32,6 +35,9 @@ public class ProjectMapper implements IProjectMapper{
         if(entity.getLinks()!=null && !entity.getLinks().isEmpty()){
             dto.setLinks(this.linkMapper.mapToListDTO(entity.getLinks()));
         }
+        if(entity.getTechnologies()!=null && !entity.getTechnologies().isEmpty()){
+            dto.setTechnologies(this.techMapper.mapToListDtos(entity.getTechnologies()));
+        }
         return dto;
     }
 
@@ -46,6 +52,9 @@ public class ProjectMapper implements IProjectMapper{
         }
         if(dto.getLinks()!=null && !dto.getLinks().isEmpty()){
             entity.setLinks(this.linkMapper.mapToListEntities(dto.getLinks()));
+        }
+        if(dto.getTechnologies()!=null && !dto.getTechnologies().isEmpty()){
+            entity.setTechnologies(this.techMapper.mapToListEntities(dto.getTechnologies()));
         }
         return entity;
     }
