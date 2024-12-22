@@ -11,5 +11,6 @@ public interface ITechnologyMapper {
     TechnologyDTO mapToDto(Technology entity);
     Technology mapToEntity(TechnologyDTO dto);
     List<TechnologyDTO> mapToListDtos(List<Technology> entities);
+    List<Technology> mapToListEntities(List<TechnologyDTO> dtos);
 
 }
