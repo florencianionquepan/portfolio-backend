@@ -8,5 +8,5 @@ import java.util.List;
 public interface IWebProjectService {
     List<WebProjectDTO> projectsByPerson(Long id);
     WebProjectDTO create(WebProjectDTO dto, MultipartFile[] files, Long idPerson);
-    WebProjectDTO update(WebProjectDTO dto, Long id);
+    WebProjectDTO update(WebProjectDTO dto, Long id, MultipartFile[] files);
 }

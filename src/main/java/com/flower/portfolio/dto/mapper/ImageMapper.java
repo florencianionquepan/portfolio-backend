@@ -13,6 +13,7 @@ public class ImageMapper implements IImageMapper{
     @Override
     public Image mapToEntity(ImageDTO dto) {
         Image image=new Image();
+        image.setId(dto.getId());
         image.setImageId(dto.getImageId());
         image.setName(dto.getName());
         image.setUrl(dto.getUrl());

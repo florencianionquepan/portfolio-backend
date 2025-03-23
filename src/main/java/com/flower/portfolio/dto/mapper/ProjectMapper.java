@@ -1,6 +1,7 @@
 package com.flower.portfolio.dto.mapper;
 
 import com.flower.portfolio.dto.WebProjectDTO;
+import com.flower.portfolio.model.Status;
 import com.flower.portfolio.model.WebProject;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +30,7 @@ public class ProjectMapper implements IProjectMapper{
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());
         dto.setEndDate(entity.getEndDate());
+        dto.setStatus(entity.getStatus().name());
         if(entity.getImages()!=null && !entity.getImages().isEmpty()){
             dto.setImages(this.imageMapper.mapToListDTO(entity.getImages()));
         }
@@ -47,6 +49,7 @@ public class ProjectMapper implements IProjectMapper{
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
+        entity.setStatus(Status.valueOf(dto.getStatus()));
         if(dto.getImages()!=null && !dto.getImages().isEmpty()){
             entity.setImages(this.imageMapper.mapToListEntities(dto.getImages()));
         }
@@ -55,6 +58,9 @@ public class ProjectMapper implements IProjectMapper{
         }
         if(dto.getTechnologies()!=null && !dto.getTechnologies().isEmpty()){
             entity.setTechnologies(this.techMapper.mapToListEntities(dto.getTechnologies()));
+        }
+        if(dto.getEndDate()!=null){
+            entity.setEndDate(dto.getEndDate());
         }
         return entity;
     }

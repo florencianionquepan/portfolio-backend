@@ -1,5 +1,6 @@
 package com.flower.portfolio.dto;
 
+import com.flower.portfolio.dto.validator.ValueOfEnum;
 import com.flower.portfolio.model.Status;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +19,8 @@ public class WebProjectDTO {
     private String title;
     private String description;
     private LocalDate endDate;
-    private Status status;
+    @ValueOfEnum(enumClass=Status.class)
+    private String status;
     private List<ImageDTO> images;
     private List<LinkDTO> links;
     private List<TechnologyDTO> technologies;

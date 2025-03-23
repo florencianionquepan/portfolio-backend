@@ -3,8 +3,6 @@ package com.flower.portfolio.service.implementations;
 import com.flower.portfolio.dto.*;
 import com.flower.portfolio.dto.mapper.IPersonDetailsMapper;
 import com.flower.portfolio.dto.mapper.IPersonMapper;
-import com.flower.portfolio.dto.mapper.IProjectMapper;
-import com.flower.portfolio.dto.mapper.ProjectMapper;
 import com.flower.portfolio.model.Person;
 import com.flower.portfolio.repository.IPersonRepository;
 import com.flower.portfolio.service.interfaces.IPersonService;
@@ -12,7 +10,6 @@ import com.flower.portfolio.service.interfaces.IProgramService;
 import com.flower.portfolio.service.interfaces.IWebProjectService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
