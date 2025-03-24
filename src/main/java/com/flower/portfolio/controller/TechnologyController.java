@@ -1,17 +1,18 @@
 package com.flower.portfolio.controller;
 
 import com.flower.portfolio.dto.TechnologyDTO;
-import com.flower.portfolio.model.Technology;
 import com.flower.portfolio.service.interfaces.ITechnologyService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/technologies")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class TechnologyController {
 
     private final ITechnologyService service;
