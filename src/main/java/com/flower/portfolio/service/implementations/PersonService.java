@@ -39,7 +39,6 @@ public class PersonService implements IPersonService {
         List<ProgramDTO> programs=this.programService.programsByPerson(person.getId());
         List<WebProjectDTO> projects=this.projectService.projectsByPerson(person.getId());
         return this.detailsMapper.mapToDto(this.mapper.mapToDto(person),programs,projects);
-        //queda agregar las technologies a projects
     }
 
     @Override

@@ -189,11 +189,11 @@ public class WebProjectService implements IWebProjectService {
         // Actualizar los Links o agregar los nuevos desde modified.getLinks()
         modifieds.forEach(modifiedLink -> {
             if (modifiedLink.getId() == null) {
-                modifiedLink.setProject(project);
                 linkMap.put(System.nanoTime(), modifiedLink); // para que se creen todos los nuevos
             } else {
                 linkMap.put(modifiedLink.getId(), modifiedLink); //para actualizar si tenia el id
             }
+            modifiedLink.setProject(project);
         });
         return new ArrayList<>(linkMap.values());
     }
