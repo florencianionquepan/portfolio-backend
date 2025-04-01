@@ -4,6 +4,7 @@ import com.flower.portfolio.dto.ContactFormDTO;
 import com.flower.portfolio.dto.PersonWithDetailsDTO;
 import com.flower.portfolio.service.interfaces.IEmailService;
 import com.flower.portfolio.service.interfaces.IPersonService;
+import com.flower.portfolio.service.interfaces.IRecordDownloadService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -23,14 +24,17 @@ public class PublicController {
 
     private final IPersonService personService;
     private final IEmailService emailService;
+    private final IRecordDownloadService downloadService;
 
     @Value("${resume.path}")
     private String RESUME_PATH;
 
     public PublicController(IPersonService personService,
-                            IEmailService emailService) {
+                            IEmailService emailService,
+                            IRecordDownloadService downloadService) {
         this.personService = personService;
         this.emailService = emailService;
+        this.downloadService = downloadService;
     }
 
     @GetMapping("/profile/{lastname}")
@@ -51,18 +55,21 @@ public class PublicController {
     @GetMapping("/resume")
     public ResponseEntity<?> getResume(HttpServletRequest request){
         String clientIp = this.getClientIp(request);
+        String userAgent= request.getHeader("User-Agent");
         try {
             Path path = Paths.get(RESUME_PATH);
             Resource resource = new UrlResource(path.toUri());
             if (!resource.exists() || !resource.isReadable()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
+            this.downloadService.create("OK",userAgent,clientIp);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_PDF)
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=resume.pdf")
                     .body(resource);
         } catch (Exception e) {
             //logger.error("Error al descargar el CV: {}", e.getMessage());
+            this.downloadService.create(e.getMessage(),userAgent,clientIp);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
