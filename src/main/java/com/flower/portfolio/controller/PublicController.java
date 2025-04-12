@@ -7,6 +7,7 @@ import com.flower.portfolio.service.interfaces.IPersonService;
 import com.flower.portfolio.service.interfaces.IRecordDownloadService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -25,9 +26,6 @@ public class PublicController {
     private final IPersonService personService;
     private final IEmailService emailService;
     private final IRecordDownloadService downloadService;
-
-    @Value("${resume.path}")
-    private String RESUME_PATH;
 
     public PublicController(IPersonService personService,
                             IEmailService emailService,
@@ -57,8 +55,7 @@ public class PublicController {
         String clientIp = this.getClientIp(request);
         String userAgent= request.getHeader("User-Agent");
         try {
-            Path path = Paths.get(RESUME_PATH);
-            Resource resource = new UrlResource(path.toUri());
+            Resource resource = new ClassPathResource("static/resume.pdf");
             if (!resource.exists() || !resource.isReadable()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
