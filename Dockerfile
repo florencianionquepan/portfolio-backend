@@ -1,4 +1,6 @@
 FROM eclipse-temurin:17-jdk-focal
-COPY ./target/portfolio-0.0.1-SNAPSHOT.jar portfolio.jar
+COPY . .
+RUN ./mvnw clean install -DskipTests
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/portfolio.jar"]
+# Comando de inicio
+ENTRYPOINT ["java", "-jar", "/target/portfolio-0.0.1-SNAPSHOT.jar"]
