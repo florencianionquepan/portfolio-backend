@@ -35,9 +35,9 @@ public class PublicController {
         this.downloadService = downloadService;
     }
 
-    @GetMapping("/profile/{lastname}")
-    public ResponseEntity<?> getPersonDetails(@PathVariable String lastname){
-        PersonWithDetailsDTO dto=this.personService.getAllData(lastname);
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<?> getPersonDetails(@PathVariable Long id){
+        PersonWithDetailsDTO dto=this.personService.getAllData(id);
         return ResponseEntity.ok(dto);
     }
 

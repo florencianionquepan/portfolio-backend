@@ -28,10 +28,4 @@ public class PersonController {
         PersonDTO created=this.personService.post(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
-
-    @GetMapping("/{lastname}")
-    public ResponseEntity<?> getSensitiveData(@PathVariable String lastname){
-        ContactInfoDTO contact=this.personService.getSensitiveData(lastname);
-        return ResponseEntity.ok(contact);
-    }
 }
