@@ -1,6 +1,7 @@
 package com.flower.portfolio.controller.handlerException;
 
 import com.flower.portfolio.dto.response.ExceptionDTO;
+import com.flower.portfolio.exception.NonExistingException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,12 @@ public class ApiControllerAdvice {
         Map<String,String> detalle= new HashMap<>();
         constraintViolations.forEach(c->detalle.put(c.getPropertyPath().toString(),c.getMessage()));
         return new ExceptionDTO(HttpStatus.BAD_REQUEST.value(),"Invalid Request",detalle);
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDTO doesntExist(NonExistingException ex){
+        return new ExceptionDTO(HttpStatus.BAD_REQUEST.value(), ex.getMessage(),null);
     }
 }

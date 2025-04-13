@@ -3,6 +3,7 @@ package com.flower.portfolio.service.implementations;
 import com.flower.portfolio.dto.*;
 import com.flower.portfolio.dto.mapper.IPersonDetailsMapper;
 import com.flower.portfolio.dto.mapper.IPersonMapper;
+import com.flower.portfolio.exception.NonExistingException;
 import com.flower.portfolio.model.Person;
 import com.flower.portfolio.repository.IPersonRepository;
 import com.flower.portfolio.service.interfaces.IPersonService;
@@ -11,6 +12,7 @@ import com.flower.portfolio.service.interfaces.IWebProjectService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService implements IPersonService {
@@ -34,23 +36,39 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public PersonWithDetailsDTO getAllData(String lastname) {
-        Person person=this.repo.findByLastName(lastname);
+    public PersonWithDetailsDTO getAllData(Long idPerson) {
+        Optional<Person> oPerson=this.repo.findById(idPerson);
+        if(oPerson.isEmpty()){
+            throw new NonExistingException(
+                    String.format("The person with id %d doesn't exist",
+                            idPerson
+                    )
+            );
+        }
+        Person person=oPerson.get();
         List<ProgramDTO> programs=this.programService.programsByPerson(person.getId());
         List<WebProjectDTO> projects=this.projectService.projectsByPerson(person.getId());
         return this.detailsMapper.mapToDto(this.mapper.mapToDto(person),programs,projects);
     }
 
     @Override
-    public ContactInfoDTO getSensitiveData(String lastname) {
-        Person p=this.repo.findByLastName(lastname);
-        return this.mapper.mapToSensitiveData(p);
+    public ContactInfoDTO getSensitiveData(Long idPerson) {
+        Optional<Person> p=this.repo.findById(idPerson);
+        return this.mapper.mapToSensitiveData(p.orElse(null));
     }
 
-    //agregar excepciones luego
     @Override
-    public PersonDTO get(String lastname) {
-        return this.mapper.mapToDto(this.repo.findByLastName(lastname));
+    public PersonDTO get(Long idPerson) {
+        Optional<Person> oPerson=this.repo.findById(idPerson);
+        if(oPerson.isEmpty()){
+            throw new NonExistingException(
+                    String.format("The person with id %d doesn't exist",
+                            idPerson
+                    )
+            );
+        }
+        Person person=oPerson.get();
+        return this.mapper.mapToDto(person);
     }
 
     @Override

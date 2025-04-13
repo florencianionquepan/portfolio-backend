@@ -2,6 +2,7 @@ package com.flower.portfolio.service.implementations;
 
 import com.flower.portfolio.dto.WebProjectDTO;
 import com.flower.portfolio.dto.mapper.IProjectMapper;
+import com.flower.portfolio.exception.NonExistingException;
 import com.flower.portfolio.external.mapper.ImageUploadedMapper;
 import com.flower.portfolio.external.service.CloudinaryService;
 import com.flower.portfolio.model.*;
@@ -57,7 +58,11 @@ public class WebProjectService implements IWebProjectService {
     public WebProjectDTO create(WebProjectDTO dto, MultipartFile[] files, Long idPerson) {
         Optional<Person> oPerson=this.personRepo.findById(idPerson);
         if(oPerson.isEmpty()){
-            //...lanzar excepcion
+            throw new NonExistingException(
+                    String.format("The person with id %d doesn't exist",
+                            idPerson
+                    )
+            );
         }
         WebProject project=this.mapper.mapToEntity(dto);
         project.setPerson(oPerson.get());
@@ -74,7 +79,11 @@ public class WebProjectService implements IWebProjectService {
         if(project.getTechnologies()!=null && !project.getTechnologies().isEmpty()){
             for (Technology tech : project.getTechnologies()) {
                 if (!techRepo.existsById(tech.getId())) {
-                    throw new IllegalArgumentException("Technology not found with ID: " + tech.getId());
+                    throw new NonExistingException(
+                            String.format("The technology with id %d doesn't exist",
+                                    tech.getId()
+                            )
+                    );
                 }
             }
             project.getTechnologies().forEach(tech -> {
@@ -100,7 +109,11 @@ public class WebProjectService implements IWebProjectService {
     public WebProjectDTO update(WebProjectDTO dto, Long id, MultipartFile[] files) {
         Optional<WebProject> oProject=this.repo.findById(id);
         if(oProject.isEmpty()){
-            //lanzo excepcion
+            throw new NonExistingException(
+                    String.format("The project with id %d doesn't exist",
+                            id
+                    )
+            );
         }
         Person person=oProject.get().getPerson();
         WebProject modified=this.mapper.mapToEntity(dto);
