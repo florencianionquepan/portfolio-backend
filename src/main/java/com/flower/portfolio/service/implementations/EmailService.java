@@ -30,7 +30,7 @@ public class EmailService implements IEmailService {
             mailSender.send(email);
             return true;
         } catch (MailException e) {
-            System.err.println("Error al enviar el correo: " + e.getMessage());
+            System.err.println("There was an Error sending the email: " + e.getMessage());
             return false;
         }
     }
