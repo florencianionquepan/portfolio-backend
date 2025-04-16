@@ -1,11 +1,14 @@
 package com.flower.portfolio.configuration;
 
+import com.flower.portfolio.auth.controller.AuthController;
 import com.flower.portfolio.auth.dto.UserDTO;
 import com.flower.portfolio.auth.dto.mapper.IUserMapper;
 import com.flower.portfolio.auth.service.IUserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -29,6 +32,8 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
     public final IUserService service;
     public final IUserMapper userMapper;
+
+    private Logger logger= LoggerFactory.getLogger(OAuth2LoginSuccessHandler.class);
 
     public OAuth2LoginSuccessHandler(IUserService service,
                                      IUserMapper userMapper) {
@@ -54,6 +59,7 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         SecurityContextHolder.getContext().setAuthentication(securityAuth);
         this.setAlwaysUseDefaultTargetUrl(true);
         this.setDefaultTargetUrl(frontUrl);
+        logger.info("LoginSuccesHandler here!");
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }
