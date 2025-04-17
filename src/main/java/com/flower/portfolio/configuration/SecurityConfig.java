@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class SecurityConfig {
     private String githubClientSecret;
 
     @Value("${frontend.url}")
-    private String frontUrl;
+    private String frontUrls;
 
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
@@ -51,7 +52,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors->cors.configurationSource(request -> {
                     CorsConfiguration configuration=new CorsConfiguration();
-                    configuration.setAllowedOrigins(List.of(frontUrl));
+                    List<String> allowedOrigins = Arrays.asList(frontUrls.split(","));
+                    configuration.setAllowedOrigins(allowedOrigins);
                     configuration.setAllowedHeaders(Collections.singletonList("*"));
                     configuration.setAllowedMethods(Collections.singletonList("*"));
                     configuration.setAllowCredentials(true);
