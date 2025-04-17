@@ -37,7 +37,7 @@ public class SecurityConfig {
     @Value("${github.client-secret}")
     private String githubClientSecret;
 
-    @Value("${frontend.url}")
+    @Value("${frontend.urls.allowed}")
     private String frontUrls;
 
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
