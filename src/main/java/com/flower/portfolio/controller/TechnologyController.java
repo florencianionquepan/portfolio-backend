@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/technologies")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class TechnologyController {
 
     private final ITechnologyService service;
@@ -28,12 +27,14 @@ public class TechnologyController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> createTechnology(@RequestBody @Valid TechnologyDTO dto){
         TechnologyDTO created=this.service.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{idT}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateTechnology(@PathVariable Long idT,
                                            @RequestBody @Valid TechnologyDTO dto){
         TechnologyDTO modified=this.service.update(dto,idT);
