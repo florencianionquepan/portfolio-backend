@@ -31,11 +31,17 @@ public class SecurityConfig {
     @Value("${google.client-secret}")
     private String googleClientSecret;
 
+    @Value("${google.client-uri}")
+    private String googleClientRedirectUri;
+
     @Value("${github.client-id}")
     private String githubClientId;
 
     @Value("${github.client-secret}")
     private String githubClientSecret;
+
+    @Value("${github.client-uri}")
+    private String githubClientRedirectUri;
 
     @Value("${frontend.urls.allowed}")
     private String frontUrls;
@@ -89,11 +95,13 @@ public class SecurityConfig {
 
     private ClientRegistration googleClientRegistration(){
         return CommonOAuth2Provider.GOOGLE.getBuilder("google").clientId(googleClientId)
-                .clientSecret(googleClientSecret).build();
+                .clientSecret(googleClientSecret)
+                .redirectUri(googleClientRedirectUri).build();
     }
 
     private ClientRegistration githubClientRegistration(){
         return CommonOAuth2Provider.GITHUB.getBuilder("github").clientId(githubClientId)
-                .clientSecret(githubClientSecret).build();
+                .clientSecret(githubClientSecret)
+                .redirectUri(githubClientRedirectUri).build();
     }
 }
