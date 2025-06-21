@@ -46,4 +46,6 @@ public class WebProject {
     @ManyToOne(cascade=CascadeType.MERGE)
     @JsonIgnoreProperties(value="projects")
     private Person person;
+
+    private Boolean deleted = false;
 }

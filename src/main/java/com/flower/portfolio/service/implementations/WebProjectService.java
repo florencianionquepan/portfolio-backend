@@ -49,7 +49,7 @@ public class WebProjectService implements IWebProjectService {
 
     @Override
     public List<WebProjectDTO> projectsByPerson(Long id) {
-        List<WebProject> projects=this.repo.findByPersonId(id);
+        List<WebProject> projects=this.repo.findByPersonIdAndDeletedFalse(id);
         return this.mapper.mapToListDTOs(projects);
     }
 

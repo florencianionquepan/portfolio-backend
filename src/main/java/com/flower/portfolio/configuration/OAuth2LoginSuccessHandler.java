@@ -1,6 +1,5 @@
 package com.flower.portfolio.configuration;
 
-import com.flower.portfolio.auth.controller.AuthController;
 import com.flower.portfolio.auth.dto.UserDTO;
 import com.flower.portfolio.auth.dto.mapper.IUserMapper;
 import com.flower.portfolio.auth.service.IUserService;
@@ -10,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
